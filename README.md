@@ -5,14 +5,19 @@ This project is the Apache Spark Examples using Kotlin not Java and Scala
 You can compare original examples and this project
 
 ### RDD Programming Guide
+
 origin : https://spark.apache.org/docs/latest/rdd-programming-guide.html
-this : 
+
+this : https://github.com/nohkwangsun/spark-using-kotlin/tree/master/gradle-project/src/main/kotlin/rdd
 
 ### SQL Programming Guide
+
 origin : https://spark.apache.org/docs/latest/sql-programming-guide.html
+
 this : 
 
 ### others
+
 comming soon ...
 
 
