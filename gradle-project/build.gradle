@@ -1,17 +1,40 @@
-plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.3.21'
+//plugins {
+//    id 'org.jetbrains.kotlin.jvm' version '1.3.21'
+//}
+
+buildscript {
+    ext.kotlin_version = '1.3.21'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    }
 }
+
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'application'
+
 
 group 'org.nks.kotlin'
 version '1.0-SNAPSHOT'
+
+defaultTasks 'run'
+
+mainClassName = 'org.kwangsun.spark.kotlin.example.AdjustmentHourlyExample'
+def executableBaseName = "AdjustmentHourlyExample"
+defaultTasks 'run'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    implementation "org.apache.spark:spark-core_2.12:2.4.3"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation "org.apache.spark:spark-core_2.11:2.4.3"
+    compile 'org.apache.spark:spark-sql_2.11:2.4.3'
 }
 
 compileKotlin {
@@ -19,4 +42,30 @@ compileKotlin {
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+
+//mainClassName = 'org.nks.kotlin.HelloWorld'
+//def executableBaseName = "HelloWorld"
+//defaultTasks 'run'
+
+sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
+}
+
+jar {
+    dependsOn configurations.runtime
+    from {
+        (configurations.runtime - configurations.provided).collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    } {
+        exclude "META-INF/*"
+    }
+    zip64=true
+}
+
+configurations {
+    provided
+    compile.extendsFrom provided
 }
